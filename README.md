@@ -1,4 +1,4 @@
-**AsyncMessageBox - A Qt Solution for Non-Blocking Message Boxes**
+**AsyncMessageBox - Create and Manage Qt Message Boxes from Threads**
 
 **Problem:**
 
