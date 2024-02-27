@@ -31,8 +31,6 @@ private:
     QMap<QString,QVariant> LocalProperties;
     int result = -1;
 
-    QObject* Parent=nullptr;
-
 public slots:
     void ShowAsyncMessageBoxSlot();
 
