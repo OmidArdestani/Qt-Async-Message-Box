@@ -1,4 +1,5 @@
 #include "asyncmessagebox.h"
+#include "qapplication.h"
 #include "qvariant.h"
 
 #include <QMessageBox>
@@ -10,6 +11,8 @@
 AsyncMessageBox::AsyncMessageBox()
     : QObject{}
 {
+    this->moveToThread(qApp->thread());
+
     connect(this, &AsyncMessageBox::__ShowAsyncMessageBox, this, &AsyncMessageBox::ShowAsyncMessageBoxSlot, Qt::UniqueConnection);
 }
 
@@ -24,24 +27,6 @@ int AsyncMessageBox::WaitForDone()
 void AsyncMessageBox::ShowAsyncMessageBox()
 {
     emit __ShowAsyncMessageBox();
-}
-
-void AsyncMessageBox::setButtonText(int button, const QString &text)
-{
-    if(this->property("ButtonText").isValid())
-    {
-        auto btns = this->property("ButtonText").toMap();
-        btns.insert(QString::number(button),text);
-
-        LocalProperties.insert("ButtonText", btns);
-    }
-    else
-    {
-        QMap<QString,QVariant> btn_map;
-        btn_map.insert(QString::number(button),text);
-
-        LocalProperties.insert("ButtonText", btn_map);
-    }
 }
 
 void AsyncMessageBox::setText(const QString &text)
@@ -77,13 +62,6 @@ void AsyncMessageBox::setDetailedText(const QString &text)
 void AsyncMessageBox::ShowAsyncMessageBoxSlot()
 {
     QMessageBox msg;
-
-    if(LocalProperties.contains("ButtonText"))
-    {
-        auto btns = this->property("ButtonText").toMap();
-        for(auto btn = btns.cbegin(); btn != btns.cend(); ++btn)
-            msg.setButtonText(btn.key().toInt(),btn.value().toString());
-    }
 
     if(LocalProperties.contains("Text"))
         msg.setText(LocalProperties.value("Text").toString());

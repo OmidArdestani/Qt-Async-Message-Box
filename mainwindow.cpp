@@ -7,7 +7,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    new MyTheadClass(new AsyncMessageBox());
+    new MyTheadClass();
 }
 
 MainWindow::~MainWindow()

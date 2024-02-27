@@ -16,7 +16,6 @@ public:
     int WaitForDone();
     void ShowAsyncMessageBox();
 
-    void setButtonText(int button, const QString &text);
     void setText(const QString &text);
     void setInformativeText(const QString &text);
 #if QT_CONFIG(textedit)
@@ -31,6 +30,8 @@ private:
     QMutex LocalMutex;
     QMap<QString,QVariant> LocalProperties;
     int result = -1;
+
+    QObject* Parent=nullptr;
 
 public slots:
     void ShowAsyncMessageBoxSlot();

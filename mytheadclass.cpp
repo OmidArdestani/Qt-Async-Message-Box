@@ -3,10 +3,10 @@
 #include <AsyncMessageBox.h>
 #include <QThread>
 #include <QDebug>
+#include <QApplication>
 
-MyTheadClass::MyTheadClass(AsyncMessageBox* async)
+MyTheadClass::MyTheadClass()
     : QObject{}
-    , amsg(async)
 {
     LocalThread.reset(new QThread());
 
@@ -14,13 +14,15 @@ MyTheadClass::MyTheadClass(AsyncMessageBox* async)
     LocalThread->start();
 
     connect(LocalThread.data(),SIGNAL(started()),this,SLOT(ThreadStarted()));
+
 }
 
 void MyTheadClass::ThreadStarted()
 {
-    amsg->setText("Erorr");
-    amsg->setDetailedText("This is my error message from thread.");
-    amsg->ShowAsyncMessageBox();
-    auto r = amsg->WaitForDone();
+    AsyncMessageBox amsg;
+    amsg.setText("Erorr");
+    amsg.setDetailedText("This is my error message from thread.");
+    amsg.ShowAsyncMessageBox();
+    auto r = amsg.WaitForDone();
     qDebug()<<Q_FUNC_INFO<<r;
 }

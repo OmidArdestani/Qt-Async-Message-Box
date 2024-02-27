@@ -8,11 +8,10 @@ class MyTheadClass : public QObject
 {
     Q_OBJECT
 public:
-    explicit MyTheadClass(AsyncMessageBox* async);
+    explicit MyTheadClass();
 
 private:
     QScopedPointer<QThread> LocalThread;
-    AsyncMessageBox* amsg;
 
 private slots:
     void ThreadStarted();
